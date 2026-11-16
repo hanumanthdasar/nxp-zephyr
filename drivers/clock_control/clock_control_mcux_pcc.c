@@ -99,6 +99,11 @@ static int mcux_pcc_get_rate(const struct device *dev,
 	}
 
 	*rate = CLOCK_GetIpFreq(clock_encoding);
+#if defined(CONFIG_SOC_SERIES_KE1XZ)
+	if (*rate == 0U) {
+		*rate = CLOCK_GetCoreSysClkFreq();
+	}
+#endif
 
 	return 0;
 }
